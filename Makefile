@@ -13,22 +13,23 @@
 # Database bindings
 BIND_WIREDTIGER ?= 0
 BIND_LEVELDB ?= 0
-BIND_ROCKSDB ?= 0
+BIND_ROCKSDB ?= 1
 BIND_LMDB ?= 0
-BIND_SQLITE ?= 0
+# BIND_SQLITE = 1
 
 # Extra options
-DEBUG_BUILD ?=
+DEBUG_BUILD = 1 # yyx
+# DEBUG_BUILD ?=
 EXTRA_CXXFLAGS ?=
 EXTRA_LDFLAGS ?=
 
 # HdrHistogram for tail latency report
-BIND_HDRHISTOGRAM ?= 1
+BIND_HDRHISTOGRAM = 1
 # Build and statically link library, submodule required
-BUILD_HDRHISTOGRAM ?= 1
+BUILD_HDRHISTOGRAM = 1
 
 #----------------------------------------------------------
-
+CXXFLAGS += -g -O0 # yyx force debuging, don't know why the following code doesn't work
 ifeq ($(DEBUG_BUILD), 1)
 	CXXFLAGS += -g
 else
@@ -47,18 +48,19 @@ ifeq ($(BIND_LEVELDB), 1)
 endif
 
 ifeq ($(BIND_ROCKSDB), 1)
-	LDFLAGS += -lrocksdb
+# yyx below
+	# CXXFLAGS += -I/home/yangyx/desktop/CA3/SILK-USENIXATC2019
+	# LDFLAGS += -lrocksdb -Wl,-rpath,/home/yangyx/desktop/CA3/SILK-USENIXATC2019
+	EXTRA_LDFLAGS += -L/example/rocksdb -ldl -lz -lsnappy # -lzstd -lbz2 -llz4
+	EXTRA_CXXFLAGS += -I/home/yangyx/desktop/CA3/SILK-USENIXATC2019/include
+# yyx above 
+LDFLAGS += -lrocksdb
 	SOURCES += $(wildcard rocksdb/*.cc)
 endif
 
 ifeq ($(BIND_LMDB), 1)
 	LDFLAGS += -llmdb
 	SOURCES += $(wildcard lmdb/*.cc)
-endif
-
-ifeq ($(BIND_SQLITE), 1)
-	LDFLAGS += -lsqlite3
-	SOURCES += $(wildcard sqlite/*.cc)
 endif
 
 CXXFLAGS += -std=c++17 -Wall -pthread $(EXTRA_CXXFLAGS) -I./
