@@ -49,10 +49,10 @@ endif
 
 ifeq ($(BIND_ROCKSDB), 1)
 # yyx below
-	# CXXFLAGS += -I/home/yangyx/desktop/CA3/SILK-USENIXATC2019
-	# LDFLAGS += -lrocksdb -Wl,-rpath,/home/yangyx/desktop/CA3/SILK-USENIXATC2019
+	# CXXFLAGS += -I../SILK-USENIXATC2019
+	# LDFLAGS += -lrocksdb -Wl,-rpath,../SILK-USENIXATC2019
 	EXTRA_LDFLAGS += -L/example/rocksdb -ldl -lz -lsnappy # -lzstd -lbz2 -llz4
-	EXTRA_CXXFLAGS += -I/home/yangyx/desktop/CA3/SILK-USENIXATC2019/include
+	EXTRA_CXXFLAGS += -I../SILK-USENIXATC2019/include
 # yyx above 
 LDFLAGS += -lrocksdb
 	SOURCES += $(wildcard rocksdb/*.cc)
