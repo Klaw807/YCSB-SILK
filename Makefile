@@ -51,8 +51,8 @@ ifeq ($(BIND_ROCKSDB), 1)
 # yyx below
 	# CXXFLAGS += -I../SILK-USENIXATC2019
 	# LDFLAGS += -lrocksdb -Wl,-rpath,../SILK-USENIXATC2019
-	EXTRA_LDFLAGS += -L/example/rocksdb -ldl -lz -lsnappy # -lzstd -lbz2 -llz4
-	EXTRA_CXXFLAGS += -I../SILK-USENIXATC2019/include
+	EXTRA_LDFLAGS += -L../SILK-USENIXATC2019/install/lib -ldl -lz -lsnappy -lzstd -lbz2 -llz4
+	EXTRA_CXXFLAGS += -I../SILK-USENIXATC2019/install
 # yyx above 
 LDFLAGS += -lrocksdb
 	SOURCES += $(wildcard rocksdb/*.cc)
